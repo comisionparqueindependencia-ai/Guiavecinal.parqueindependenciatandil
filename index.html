@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Vecinal - Barrio Parque Independencia</title>
+    <!-- Tailwind CSS para el diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para los íconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Animaciones suaves para las transiciones de pantalla */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Ocultar barra de scroll en listas largas pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased">
+
+    <!-- Encabezado Institucional -->
+    <header class="bg-emerald-700 text-white shadow-md rounded-b-2xl mb-4 sticky top-0 z-50">
+        <div class="max-w-md mx-auto px-4 py-5 text-center">
+            <h1 class="text-2xl font-bold leading-tight">Barrio Parque Independencia</h1>
+            <p class="text-sm mt-1 opacity-90 font-medium">Comisión Vecinal de Seguridad</p>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="max-w-md mx-auto px-4 pb-12" id="app-container">
+
+        <!-- VISTA DE INICIO -->
+        <div id="view-home" class="fade-in block">
+            
+            <!-- Tarjeta Cuenta Regresiva -->
+            <div class="bg-white rounded-xl shadow-sm border-l-4 border-emerald-500 p-5 mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="font-bold text-gray-700 text-lg">Próxima Reunión del Foro</h2>
+                    <i class="fas fa-users text-emerald-500 text-xl"></i>
+                </div>
+                <div class="text-3xl font-black text-emerald-600 my-2 text-center" id="countdown-timer">
+                    Cargando...
+                </div>
+                <p class="text-xs text-gray-500 text-center mt-2">
+                    <i class="fas fa-map-marker-alt"></i> Cámara Empresaria (Mitre 856)<br>
+                    <i class="far fa-clock"></i> Primer miércoles del mes - 18:00h
+                </p>
+            </div>
+
+            <!-- Grilla de Menú -->
+            <h3 class="font-bold text-gray-600 mb-3 px-1 text-lg">¿Qué estás buscando?</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Botón Emergencias -->
+                <button onclick="showView('view-emergencias')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95">
+                    <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Emergencias</span>
+                </button>
+
+                <!-- Botón Salud -->
+                <button onclick="showView('view-salud')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Salud</span>
+                </button>
+
+                <!-- Botón Servicios -->
+                <button onclick="showView('view-servicios')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95">
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Servicios</span>
+                </button>
+
+                <!-- Botón Trámites -->
+                <button onclick="showView('view-tramites')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Trámites</span>
+                </button>
+
+                <!-- Botón Mapas -->
+                <button onclick="showView('view-mapas')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95 col-span-2 sm:col-span-1">
+                    <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Mapas del Barrio</span>
+                </button>
+
+                <!-- Botón Eventos -->
+                <button onclick="showView('view-eventos')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95 col-span-2 sm:col-span-1">
+                    <div class="w-12 h-12 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Eventos</span>
+                </button>
+
+                <!-- NUEVO: Botón Colectivos -->
+                <button onclick="showView('view-colectivos')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95 col-span-2">
+                    <div class="w-12 h-12 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">Paradas de Colectivo</span>
+                </button>
+            </div>
+
+            <!-- Tarjeta Blog del Barrio -->
+            <a href="https://comisionparqueindependenciatandil.blogspot.com/" target="_blank" class="mt-6 block bg-orange-50 hover:bg-orange-100 transition rounded-xl shadow-sm p-4 border border-orange-200 active:scale-[0.98]">
+                <div class="flex items-center gap-4">
+                    <div class="bg-orange-200 text-orange-600 w-12 h-12 rounded-full flex items-center justify-center text-2xl flex-shrink-0">
+                        <i class="fab fa-blogger"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-orange-800 text-lg leading-tight">Blog del Barrio</h3>
+                        <p class="text-xs text-orange-700 mt-1">Novedades y noticias de la comisión vecinal.</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-orange-400"></i>
+                </div>
+            </a>
+
+            <!-- Tarjeta App Centinela -->
+            <div class="mt-4 bg-gradient-to-r from-slate-800 to-blue-900 rounded-xl shadow-md p-5 text-white border-b-4 border-blue-500">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                        <i class="fas fa-shield-alt text-2xl text-blue-200"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg leading-tight">App Centinela Tandil</h3>
+                        <p class="text-xs text-blue-200 mt-1">Descargá la herramienta de prevención y seguridad ciudadana.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-4">
+                    <a href="https://play.google.com/store/apps/details?id=com.softguard.android.muntandil&pli=1" target="_blank" class="flex-1 bg-white bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-30 transition rounded-lg py-2.5 px-2 flex items-center justify-center gap-2 text-sm font-semibold border border-blue-400/30">
+                        <i class="fab fa-android text-green-400 text-lg"></i> Android
+                    </a>
+                    <a href="https://apps.apple.com/us/app/centinela-tandil/id6444133842" target="_blank" class="flex-1 bg-white bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-30 transition rounded-lg py-2.5 px-2 flex items-center justify-center gap-2 text-sm font-semibold border border-blue-400/30">
+                        <i class="fab fa-apple text-white text-lg"></i> Apple
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- VISTA: EMERGENCIAS -->
+        <div id="view-emergencias" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-red-600 mb-4 border-b-2 border-red-200 pb-2"><i class="fas fa-bell"></i> Emergencias</h2>
+            
+            <div class="space-y-3">
+                <a href="tel:101" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500 active:bg-gray-50">
+                    <div class="font-bold text-lg text-gray-800">Policía <span class="text-red-500 ml-2">101</span></div>
+                    <div class="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center"><i class="fas fa-phone-alt"></i></div>
+                </a>
+                <a href="tel:100" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500 active:bg-gray-50">
+                    <div class="font-bold text-lg text-gray-800">Bomberos <span class="text-red-500 ml-2">100</span></div>
+                    <div class="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center"><i class="fas fa-phone-alt"></i></div>
+                </a>
+                <a href="tel:107" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500 active:bg-gray-50">
+                    <div class="font-bold text-lg text-gray-800">Hospital (SAME) <span class="text-red-500 ml-2">107</span></div>
+                    <div class="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center"><i class="fas fa-phone-alt"></i></div>
+                </a>
+                <a href="tel:103" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-orange-500 active:bg-gray-50">
+                    <div class="font-bold text-lg text-gray-800">Defensa Civil <span class="text-orange-500 ml-2">103</span></div>
+                    <div class="bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center"><i class="fas fa-phone-alt"></i></div>
+                </a>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500">
+                    <div class="font-bold text-gray-800 mb-1">Comisaría de la Mujer y la Familia</div>
+                    <div class="text-sm text-gray-500 mb-3"><i class="fas fa-map-marker-alt"></i> Alem 1037</div>
+                    <div class="flex gap-2">
+                        <a href="tel:144" class="flex-1 text-center bg-purple-100 text-purple-700 py-2 rounded-lg font-bold">Llamar 144</a>
+                        <a href="tel:2494438758" class="flex-1 text-center bg-purple-500 text-white py-2 rounded-lg font-bold"><i class="fas fa-phone-alt"></i> Fijo</a>
+                    </div>
+                </div>
+
+                <a href="tel:2494425210" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500 active:bg-gray-50">
+                    <div>
+                        <div class="font-bold text-gray-800">Comisaría Primera</div>
+                        <div class="text-sm text-gray-500">Fijo 2494425210</div>
+                    </div>
+                    <div class="bg-blue-500 text-white w-10 h-10 rounded-full flex items-center justify-center"><i class="fas fa-phone-alt"></i></div>
+                </a>
+            </div>
+        </div>
+
+        <!-- VISTA: SALUD -->
+        <div id="view-salud" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-blue-600 mb-4 border-b-2 border-blue-200 pb-2"><i class="fas fa-heartbeat"></i> Salud</h2>
+            
+            <div class="space-y-3">
+                <a href="https://farmaciasdeturnotandil.com.ar/" target="_blank" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-teal-500">
+                    <div class="font-bold text-gray-800"><i class="fas fa-capsules text-teal-500 mr-2"></i> Farmacias de turno</div>
+                    <i class="fas fa-external-link-alt text-gray-400"></i>
+                </a>
+                <a href="https://sisptandil.gob.ar/portal/cuenta" target="_blank" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-400">
+                    <div class="font-bold text-gray-800">Portal SISP Tandil (Cuenta)</div>
+                    <i class="fas fa-external-link-alt text-blue-400"></i>
+                </a>
+                <a href="https://sisptandil.gob.ar/" target="_blank" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-400">
+                    <div class="font-bold text-gray-800">Web SISP Tandil</div>
+                    <i class="fas fa-external-link-alt text-blue-400"></i>
+                </a>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+                    <div class="font-bold text-gray-800">Vacunatorio Central</div>
+                    <div class="text-sm text-gray-500 mb-2"><i class="fas fa-map-marker-alt"></i> Rodriguez y Maipu</div>
+                    <a href="https://wa.me/5492494605904" target="_blank" class="block text-center bg-green-500 text-white py-2 rounded-lg font-bold w-full"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+                    <div class="font-bold text-gray-800">Dispensario</div>
+                    <div class="text-sm text-gray-500 mb-2"><i class="fas fa-map-marker-alt"></i> Alberdi y España</div>
+                    <a href="https://wa.me/5492494312574" target="_blank" class="block text-center bg-green-500 text-white py-2 rounded-lg font-bold w-full"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA: SERVICIOS -->
+        <div id="view-servicios" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-yellow-600 mb-4 border-b-2 border-yellow-200 pb-2"><i class="fas fa-tools"></i> Servicios</h2>
+            
+            <a href="https://wa.link/yezfk2" target="_blank" class="flex items-center justify-between bg-emerald-600 hover:bg-emerald-700 p-4 rounded-xl shadow-sm mb-4 active:scale-[0.98] transition">
+                <div class="flex items-center gap-4 text-white">
+                    <div class="bg-white bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-lg leading-tight">Contactar a la Comisión</div>
+                        <div class="text-emerald-100 text-sm">Escribinos por WhatsApp</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right text-emerald-200"></i>
+            </a>
+
+            <div class="space-y-3">
+                <a href="https://oficinavirtual.usinatandil.com.ar/#/cortes" target="_blank" class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                    <div class="font-bold text-gray-800"><i class="fas fa-bolt text-yellow-500 mr-2"></i> Cortes de Luz Programados</div>
+                    <i class="fas fa-external-link-alt text-gray-400"></i>
+                </a>
+
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <a href="https://wa.me/5492494223100" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-blue-50 transition bg-blue-50/50">
+                        <div class="font-bold text-blue-900">Usina de Tandil</div>
+                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
+                    </a>
+                    
+                    <a href="https://wa.me/5492494600511" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
+                        <div class="font-bold text-gray-700">Obras Sanitarias</div>
+                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
+                    </a>
+                    <a href="https://wa.me/5492494511130" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
+                        <div class="font-bold text-gray-700">Bromatología</div>
+                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
+                    </a>
+                    <a href="https://wa.me/5492494284443" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
+                        <div class="font-bold text-gray-700">Espacios Verdes</div>
+                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
+                    </a>
+                    <!-- NUEVO: Vialidad -->
+                    <a href="https://wa.me/5492494282176" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
+                        <div class="font-bold text-gray-700">Vialidad</div>
+                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
+                    </a>
+                    <a href="https://wa.me/5492494284955" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
+                        <div class="font-bold text-gray-700">Chatbot Municipio</div>
+                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
+                    </a>
+                    <a href="tel:2494643562" class="flex items-center justify-between p-4 hover:bg-gray-50">
+                        <div>
+                            <div class="font-bold text-gray-700">Grúa (Acarreo)</div>
+                            <div class="text-xs text-gray-500">249 464-3562</div>
+                        </div>
+                        <div class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fas fa-phone-alt"></i> Llamar</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA: TRAMITES (MODIFICADA SEGÚN SOLICITUD) -->
+        <div id="view-tramites" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-purple-600 mb-4 border-b-2 border-purple-200 pb-2"><i class="fas fa-file-alt"></i> Trámites</h2>
+            
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-2">
+                    <a href="http://www.tandil.gov.ar" target="_blank" class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 text-center block">
+                        <i class="fas fa-landmark text-gray-500 text-2xl mb-1"></i>
+                        <div class="font-bold text-sm text-gray-700">Municipio</div>
+                    </a>
+                    <a href="https://autogestion.tandil.gov.ar/apex/f?p=102:9" target="_blank" class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 text-center block">
+                        <i class="fas fa-laptop text-blue-500 text-2xl mb-1"></i>
+                        <div class="font-bold text-sm text-gray-700">Autogestión</div>
+                    </a>
+                </div>
+
+                <!-- TARJETA O.M.I.C. ACTUALIZADA -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-indigo-500">
+                    <div class="font-bold text-gray-800 text-sm mb-1 uppercase tracking-tight">Oficina Municipal de Información al Consumidor (O.M.I.C.)</div>
+                    <div class="text-xs text-gray-500 mb-3"><i class="fas fa-map-marker-alt"></i> Chacabuco 383</div>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="flex gap-2">
+                            <a href="tel:2494420708" class="flex-1 text-center bg-indigo-100 text-indigo-700 py-2 rounded font-bold text-xs"><i class="fas fa-phone mr-1"></i> Llamar</a>
+                            <a href="tel:08003330477" class="flex-1 text-center bg-green-100 text-green-700 py-2 rounded font-bold text-xs"><i class="fas fa-headset mr-1"></i> 0800</a>
+                        </div>
+                        <a href="mailto:omic@tandil.gov.ar" class="text-center bg-gray-100 text-gray-700 py-2 rounded font-bold text-xs"><i class="fas fa-envelope mr-1"></i> omic@tandil.gov.ar</a>
+                        <a href="https://drive.google.com/file/d/1Pyy90ZLOGZLI51T8nCMzysUc7R2Fe7iI/view" target="_blank" class="text-center bg-purple-50 text-purple-700 py-2 rounded font-bold text-xs border border-purple-100"><i class="fas fa-file-download mr-1"></i> Descarga el formulario de denuncia</a>
+                        <a href="https://tandil.gob.ar/guia-tramites/401" target="_blank" class="text-center bg-blue-50 text-blue-700 py-2 rounded font-bold text-xs border border-blue-100"><i class="fas fa-info-circle mr-1"></i> Más información</a>
+                    </div>
+                </div>
+
+                <!-- NUEVA TARJETA: DENUNCIA OBRA EN CONSTRUCCIÓN -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-orange-500">
+                    <div class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2 uppercase tracking-tight">
+                        <i class="fas fa-hard-hat text-orange-500"></i> Denuncia Obra en construcción
+                    </div>
+                    <div class="text-[13px] text-gray-700 space-y-3 leading-relaxed">
+                        <p>Para denunciar una obra en construcción te recomendamos que consultes la ultima actualización del Codigo de Edificación vigente para nuestra ciudad y las ultimas ordenanzas referidas al regimen de construcción aprobadas por el Concejo Deliberante de Tandil.</p>
+                        <p>Si habiendo consultado todo lo anterior podes confirmar que la obra que queres denunciar incumple con las normas tenes que escribir una nota dirigida al Director/a de Obras Privadas del Municipio incluyendo: 1) Domicilio 2)Norma incumplida 3)Fotografías, esto es opcional.</p>
+                        <p>La nota debe ser firmada por el/la denunciante incluyendo a. Nombre completo; b. Documento de identidad; c. Domicilio y d. Numero de teléfono. <span class="font-medium text-gray-800">Esta denuncia es anónima</span> aunque el personal municipal requiere esta información para poder contactar con el/la denunciante en caso que sea necesaria mas información.</p>
+                        <p class="bg-orange-50 p-2 rounded border border-orange-100">La nota se puede presentar de forma presencial en la Mesa de entradas del Municipio (Belgrano 485), o bien puede ser enviada como adjunto a <strong>"mesa_entradas@tandil.gov.ar"</strong></p>
+                    </div>
+                    <div class="mt-4 relative">
+                        <button onclick="copyToClipboard('mesa_entradas@tandil.gov.ar', this)" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                            <i class="fas fa-copy"></i> Copiar email de Mesa de Entradas
+                        </button>
+                        <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-gray-700">
+                    <div class="font-bold text-gray-800 border-b pb-2 mb-2 text-sm">Juzgados de Faltas (Lun a Vie 7:30 a 13:30)</div>
+                    <div class="mb-3">
+                        <div class="font-semibold text-gray-700 text-sm">Juzgado 1</div>
+                        <div class="flex gap-2 mt-1">
+                            <a href="tel:2494423230" class="text-blue-600 text-xs font-bold bg-blue-50 px-2 py-1 rounded">2494423230</a>
+                            <a href="mailto:faltas1@tandil.gov.ar" class="text-gray-600 text-xs font-bold bg-gray-50 px-2 py-1 rounded">Email</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-700 text-sm">Juzgado 2</div>
+                        <div class="flex gap-2 mt-1">
+                            <a href="tel:2494442481" class="text-blue-600 text-xs font-bold bg-blue-50 px-2 py-1 rounded">2494442481</a>
+                            <a href="mailto:faltas2@tandil.gov.ar" class="text-gray-600 text-xs font-bold bg-gray-50 px-2 py-1 rounded">Email</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-rose-500">
+                    <div class="font-bold text-gray-800 text-sm">Juzgado de Familia</div>
+                    <div class="text-sm text-gray-500 mb-3"><i class="fas fa-map-marker-alt"></i> Irigoyen 857</div>
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <a href="tel:2494445313" class="text-center bg-gray-100 text-gray-700 py-2 rounded-lg font-bold text-xs">Fijo</a>
+                        <a href="tel:2494573453" class="text-center bg-rose-500 text-white py-2 rounded-lg font-bold text-xs">Urgencias</a>
+                    </div>
+                    <a href="mailto:juzfam1-tn@jusbuenosaires.gov.ar" class="block text-center bg-gray-50 border text-gray-600 py-1 rounded text-[10px] font-semibold">juzfam1-tn@jusbuenosaires.gov.ar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA: EVENTOS -->
+        <div id="view-eventos" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-pink-600 mb-4 border-b-2 border-pink-200 pb-2"><i class="fas fa-calendar-alt"></i> Eventos (Instagram)</h2>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="https://www.instagram.com/culturatandil/" target="_blank" class="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl shadow-sm">
+                    <i class="fab fa-instagram text-2xl mr-3"></i> <span class="font-bold text-lg">Cultura Tandil</span>
+                </a>
+                <a href="https://www.instagram.com/agendatandil/?hl=es" target="_blank" class="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl shadow-sm">
+                    <i class="fab fa-instagram text-2xl mr-3"></i> <span class="font-bold text-lg">Agenda Tandil</span>
+                </a>
+                <a href="https://www.instagram.com/agendaculturaltandil/?hl=es" target="_blank" class="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl shadow-sm">
+                    <i class="fab fa-instagram text-2xl mr-3"></i> <span class="font-bold text-lg">Agenda Cultural</span>
+                </a>
+                <a href="https://www.instagram.com/agendacye/?hl=es" target="_blank" class="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl shadow-sm">
+                    <i class="fab fa-instagram text-2xl mr-3"></i> <span class="font-bold text-lg">Agenda C y E</span>
+                </a>
+                <a href="https://www.instagram.com/cartelera.teatral.tandil/?hl=es" target="_blank" class="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl shadow-sm">
+                    <i class="fab fa-instagram text-2xl mr-3"></i> <span class="font-bold text-lg">Cartelera Teatral</span>
+                </a>
+                <a href="https://www.cinemacenter.com.ar/" target="_blank" class="flex items-center bg-gray-800 text-white p-4 rounded-xl shadow-sm">
+                    <i class="fas fa-film text-2xl mr-3"></i> <span class="font-bold text-lg">Cine (CinemaCenter)</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- VISTA: MAPAS -->
+        <div id="view-mapas" class="fade-in hidden h-full flex-col">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-indigo-600 mb-2"><i class="fas fa-map-marked-alt"></i> Mapas del Barrio</h2>
+            
+            <div class="relative mb-4">
+                <input type="text" id="mapSearch" onkeyup="filterMaps()" placeholder="Buscar (ej. farmacia, carne...)" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm font-medium">
+                <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <ul id="mapList" class="divide-y divide-gray-100 max-h-[60vh] overflow-y-auto no-scrollbar pb-2">
+                    <!-- Los items se generan dinámicamente con JS -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- NUEVA VISTA: COLECTIVOS -->
+        <div id="view-colectivos" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-cyan-600 mb-2 border-b-2 border-cyan-200 pb-2"><i class="fas fa-bus"></i> Paradas de Colectivo</h2>
+            <p class="text-sm text-gray-600 mb-5">Seleccioná tu parada para ubicarla rápido en el mapa.</p>
+
+            <div id="colectivos-container" class="space-y-4">
+                <!-- Se generan dinámicamente con JS abajo -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Institucional -->
+    <footer class="bg-gray-800 text-gray-300 text-center py-6 mt-8">
+        <div class="max-w-md mx-auto px-4 text-sm">
+            <p class="font-semibold text-white mb-1">Comisión Vecinal de Seguridad</p>
+            <p>"Barrio Parque Independencia"</p>
+            <p class="mt-3 text-xs opacity-75">Actualizado: Marzo 2026</p>
+        </div>
+    </footer>
+
+    <!-- Lógica de la Aplicación -->
+    <script>
+        function showView(viewId) {
+            const views = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        // Función para copiar al portapapeles
+        function copyToClipboard(text, buttonElement) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const toast = buttonElement.parentElement.querySelector('.toast-msg');
+                if(toast) {
+                    toast.classList.remove('opacity-0');
+                    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+                }
+            } catch (err) {}
+            document.body.removeChild(textArea);
+        }
+
+        // --- Cuenta Regresiva ---
+        function getNextFirstWednesday() {
+            const now = new Date();
+            let year = now.getFullYear();
+            let month = now.getMonth();
+
+            function getFirstWednesday(y, m) {
+                let d = new Date(y, m, 1);
+                while (d.getDay() !== 3) {
+                    d.setDate(d.getDate() + 1);
+                }
+                d.setHours(18, 0, 0, 0);
+                return d;
+            }
+
+            let nextMeeting = getFirstWednesday(year, month);
+            let endOfMeeting = new Date(nextMeeting);
+            endOfMeeting.setHours(20, 0, 0, 0);
+
+            if (now > endOfMeeting) {
+                if (month === 11) {
+                    month = 0;
+                    year++;
+                } else {
+                    month++;
+                }
+                nextMeeting = getFirstWednesday(year, month);
+            }
+            
+            if (nextMeeting.getMonth() === 0) {
+                nextMeeting = getFirstWednesday(nextMeeting.getFullYear(), 1);
+            }
+
+            return nextMeeting;
+        }
+
+        function updateCountdown() {
+            const nextMeeting = getNextFirstWednesday();
+            const now = new Date();
+            const distance = nextMeeting.getTime() - now.getTime();
+
+            if (now.getDate() === nextMeeting.getDate() && 
+                now.getMonth() === nextMeeting.getMonth() && 
+                now.getFullYear() === nextMeeting.getFullYear()) {
+                document.getElementById("countdown-timer").innerHTML = "¡La reunión es HOY!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById("countdown-timer").innerHTML = `${days}d ${hours}h ${minutes}m`;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+
+        // --- Mapas del Barrio ---
+        const mapasData = [
+            { nombre: "Agencias de Viaje", url: "https://www.google.com/maps/d/edit?hl=es&mid=1ufCxAq6h9jOf_ifS2UmTJ2GIolSNAos&ll=-37.331283430868965%2C-59.13641954999998&z=17" },
+            { nombre: "Agremiaciones", url: "https://www.google.com/maps/d/edit?hl=es&mid=1KQDTWJx1mvNXVHZjR1VwQY2irVu9psk&ll=-37.33118913341002%2C-59.13687059999999&z=16" },
+            { nombre: "Agrimensura", url: "https://www.google.com/maps/d/edit?hl=es&mid=1o9ifSebeP5IBZ9p5yMhwRH7VGCCPKrs&ll=-37.330832989138145%2C-59.14058380000001&z=18" },
+            { nombre: "Avícolas", url: "https://www.google.com/maps/d/edit?hl=es&mid=10Tve3MRFM-hFMWQeFH0jVHbT_E3ye00&ll=-37.33316587518527%2C-59.136473349999996&z=16" },
+            { nombre: "Bicicleterias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1ZJ5hZ-vuJTtfBdbgVNmu9MygTD3_N2c&ll=-37.33285982024135%2C-59.13651525&z=16" },
+            { nombre: "Carnicerias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1ypAtvLuV8iEQKmEyVpXWCcTIR1tHXEY&ll=-37.331044513827926%2C-59.1385708&z=17" },
+            { nombre: "Comercios", url: "https://www.google.com/maps/d/edit?hl=es&mid=1Qtv3LoooicvaZPSBiEz9l2K0xabgg_0&ll=-37.3303951909901%2C-59.13358000000001&z=15" },
+            { nombre: "Consultorios holísticos", url: "https://www.google.com/maps/d/edit?hl=es&mid=1ka0UUyD5_kGe5B1HKzJSGoeSdxBm8G8&ll=-37.33119956940024%2C-59.14153405000002&z=17" },
+            { nombre: "Dieteticas", url: "https://www.google.com/maps/d/edit?hl=es&mid=1eYPZZR__g3O4noAjSPiAeheH8y5Lt8M&ll=-37.326525158522834%2C-59.13899130000002&z=15" },
+            { nombre: "Educación", url: "https://www.google.com/maps/d/edit?hl=es&mid=1Tm2D26dot3au8WMj_CFYDEtCZElznQY&ll=-37.33314393584746%2C-59.13764565000001&z=15" },
+            { nombre: "Escribanias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1uHpsf6IjIlrn02m_f6Omf_6jHibsb64&ll=-37.33165629126191%2C-59.13778464999998&z=18" },
+            { nombre: "Estetica", url: "https://www.google.com/maps/d/edit?hl=es&mid=1zEejhJL9DxmQ19PnAepGVGyKz4z7b-s&ll=-37.3317381729658%2C-59.136842600000016&z=17" },
+            { nombre: "Estudios Contables", url: "https://www.google.com/maps/d/edit?hl=es&mid=170iax-HOXHFey7VelJpK7g4KQuw6vPM&ll=-37.33382258874028%2C-59.1365159&z=17" },
+            { nombre: "Estudios Juridicos", url: "https://www.google.com/maps/d/edit?hl=es&mid=1bnAfZWMfjer3dFSN2kxD_qGiH4KwRbY&ll=-37.331987152345874%2C-59.13769774999999&z=16" },
+            { nombre: "Estudios de Arquitectura", url: "https://www.google.com/maps/d/edit?hl=es&mid=1PUfMl8qoNIlptfdMnj73x-fgA2pDqHo&ll=-37.333671679753884%2C-59.13680879999999&z=16" },
+            { nombre: "Farmacias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1MqZ4JP8QJ9tqnbeUGoJ303aFpThY-7I&ll=-37.33217791495083%2C-59.1359295&z=16" },
+            { nombre: "Fruterias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1kdbLNjL4IyRNqKrQgZmUi3O4Q3mJfSg&ll=-37.33248306234064%2C-59.13865525000001&z=16" },
+            { nombre: "Gastronomía", url: "https://www.google.com/maps/d/edit?hl=es&mid=18JJljm3bNEyvonIgUBhREj_nqC6373Q&ll=-37.33127131665384%2C-59.137792049999995&z=16" },
+            { nombre: "Gimnasios", url: "https://www.google.com/maps/d/edit?hl=es&mid=1stjEPueJ6l28hh2DvTTXBYDrlYGQllo&ll=-37.33303283978999%2C-59.137494750000016&z=16" },
+            { nombre: "Heladerias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1dAWq6qcI6EYeDUp7ZrKBRx5ccD7Tj_A&ll=-37.332154824247375%2C-59.138086500000014&z=16" },
+            { nombre: "Hogares", url: "https://www.google.com/maps/d/edit?hl=es&mid=1X6kzCy9wq0xFy3CkOSFLFxhR8lFYiYU&ll=-37.33108685894592%2C-59.1393316&z=17" },
+            { nombre: "Hoteles", url: "https://www.google.com/maps/d/edit?hl=es&mid=1GiPN67-g-B2DvG5NkEB5Npa-IuI96Nc&ll=-37.33161246121112%2C-59.136017200000005&z=16" },
+            { nombre: "Inmobiliarias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1MMUDchoyJPQcp-YG2OiIIRTjValv5RE&ll=-37.332372633136146%2C-59.13832455000001&z=17" },
+            { nombre: "Interiorismo", url: "https://www.google.com/maps/d/edit?hl=es&mid=1yimjkJB5mmyo6-tvnm7EM-KgBQxskKI&ll=-37.331566989138096%2C-59.13440514999999&z=18" },
+            { nombre: "Librerias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1JcFvdJsIMXzJNncfrnYbWwWlF5e-32c&ll=-37.33063774370366%2C-59.13861509999999&z=18" },
+            { nombre: "Limpieza", url: "https://www.google.com/maps/d/edit?hl=es&mid=1GmJzml6IDQEMaPEfsmkcqoik0IP-rCg&ll=-37.33167151790737%2C-59.136588450000005&z=16" },
+            { nombre: "Loterias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1cyn76RFftFLAcR8Ns2fc1_8Mxc8MRnk&ll=-37.331145362063744%2C-59.139052099999994&z=17" },
+            { nombre: "Maestro Mayor de Obras", url: "https://www.google.com/maps/d/edit?hl=es&mid=1eaLqSiddjlcGBEK7_pUPykIxkuEfTjI&ll=-37.33138418913808%2C-59.134653&z=18" },
+            { nombre: "Mascotas", url: "https://www.google.com/maps/d/edit?hl=es&mid=1NTYxQGvnKpugF2_0eYXuIPJjoSV6dEY&ll=-37.32515945120811%2C-59.13579375&z=14" },
+            { nombre: "Mecanica", url: "https://www.google.com/maps/d/edit?hl=es&mid=1yKRaXA5Q6dFiSQvVO8F5X-4Y5UYSMVU&ll=-37.33479179639959%2C-59.133573049999995&z=18" },
+            { nombre: "Mercados", url: "https://www.google.com/maps/d/edit?hl=es&mid=1J9zY0iE1R4WeawBGZrcZnYhaJs4kVRo&ll=-37.332812615657375%2C-59.13842599999999&z=17" },
+            { nombre: "ONGs", url: "https://www.google.com/maps/d/edit?hl=es&mid=1wHnqLi06-ElRqjpT3bpvkOqGsq_EZmw&ll=-37.333549442941276%2C-59.14017200000001&z=16" },
+            { nombre: "Obras sociales", url: "https://www.google.com/maps/d/edit?hl=es&mid=1g8xtQ46n2ix_3XD0yVfPdOmf9vBtxVc&ll=-37.331346916927345%2C-59.13612525000001&z=17" },
+            { nombre: "Oficinas publicas", url: "https://www.google.com/maps/d/edit?hl=es&mid=18qjZ6tBwFwaWciSSZkjox8kNTsSlw9I&ll=-37.33111547181828%2C-59.136176600000006&z=16" },
+            { nombre: "Panaderias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1XCTW_Pt7HUaLiRNKh93kHZpeekYAnmA&ll=-37.33489559898969%2C-59.137197199999996&z=16" },
+            { nombre: "Pastas", url: "https://www.google.com/maps/d/edit?hl=es&mid=1Iv41KAoXKJKZo9a5RfYqAIz_fjwIQIA&ll=-37.331823565953336%2C-59.1371835&z=16" },
+            { nombre: "Pasteleria", url: "https://www.google.com/maps/d/edit?hl=es&mid=1AiEgbiXExtaoZE7I1RkujWJUGLR43uM&ll=-37.33119272861599%2C-59.13713225&z=17" },
+            { nombre: "Peluquerias", url: "https://www.google.com/maps/d/edit?hl=es&mid=1eeZVpPhWDQ2sAoAR77_yDZOqiARG558&ll=-37.331296865652064%2C-59.13648935&z=17" },
+            { nombre: "Recreación", url: "https://www.google.com/maps/d/edit?hl=es&mid=1A4Q2mmRECsBQnFCOTPt-xA7imzAO8H0&ll=-37.332815694994466%2C-59.137513950000006&z=15" },
+            { nombre: "Ropa de Bebé", url: "https://www.google.com/maps/d/edit?hl=es&mid=1-mjM8GXlpJPK478cqGPzALTXOqMExww&ll=-37.332048039138535%2C-59.13718205&z=18" },
+            { nombre: "Salones infantiles", url: "https://www.google.com/maps/d/edit?hl=es&mid=1O03XsE1sA2Fo28f20IGdfXVn-w7dDrk&ll=-37.332304239784015%2C-59.1379863&z=18" },
+            { nombre: "Salud", url: "https://www.google.com/maps/d/edit?hl=es&mid=1sAiB3QKjJ-O4LngP3x67NdfkwPPGMn0&ll=-37.33167772870499%2C-59.13728275&z=16" },
+            { nombre: "Sanitarios", url: "https://www.google.com/maps/d/edit?hl=es&mid=1Trmw1nAhDu7VyfGZkV6eN5rhTCZxAiw&ll=-37.33123517129242%2C-59.13777335&z=17" },
+            { nombre: "Seguros", url: "https://www.google.com/maps/d/edit?hl=es&mid=1Y3PJcf0KX76VSRI6sN8_DWo6MyvJK08&ll=-37.33256131103895%2C-59.13671274999998&z=16" },
+            { nombre: "Servicios financieros", url: "https://www.google.com/maps/d/edit?hl=es&mid=149qdlqZCFk6gx7WmTCmsblPSkr91OyQ&ll=-37.332333489137966%2C-59.1334316&z=18" }
+        ];
+
+        const mapList = document.getElementById('mapList');
+        mapasData.forEach(mapa => {
+            const li = document.createElement('li');
+            li.className = 'map-item hover:bg-indigo-50 transition';
+            li.innerHTML = `
+                <a href="${mapa.url}" target="_blank" class="flex items-center justify-between p-4 w-full">
+                    <span class="font-semibold text-gray-700"><i class="fas fa-map-marker-alt text-indigo-400 mr-2 w-4"></i> ${mapa.nombre}</span>
+                    <i class="fas fa-chevron-right text-gray-300 text-sm"></i>
+                </a>
+            `;
+            mapList.appendChild(li);
+        });
+
+        function filterMaps() {
+            const input = document.getElementById('mapSearch').value.toLowerCase();
+            const items = document.getElementsByClassName('map-item');
+            for (let i = 0; i < items.length; i++) {
+                const text = items[i].textContent || items[i].innerText;
+                items[i].style.display = text.toLowerCase().indexOf(input) > -1 ? "" : "none";
+            }
+        }
+
+        // --- Generador de Paradas de Colectivos ---
+        const lineasColectivo = [
+            {
+                nombre: "Línea 500 (Amarillo)",
+                colorBg: "bg-yellow-400",
+                colorText: "text-yellow-900",
+                paradas: [
+                    "Rodriguez esq. Pinto", "Belgrano esq. Rodriguez", "Chacabuco esq. Maipu",
+                    "Chacabuco esq. 25 de Mayo", "Chacabuco esq. Av. Avellaneda", "Guido esq. Callao",
+                    "Belgrano esq. Chacabuco", "Pinto esq. 14 de Julio", "Pinto esq. Yrigoyen"
+                ]
+            },
+            {
+                nombre: "Línea 501 (Rojo)",
+                colorBg: "bg-red-600",
+                colorText: "text-white",
+                recorridos: [
+                    { nombre: "Recorrido A - Salceda y Catriel", paradas: ["Belgrano esq. Chacabuco", "Belgrano esq. San Lorenzo", "Belgrano esq. Av. Rivadavia"] },
+                    { nombre: "Recorrido B - Av. Estrada y Calihue", paradas: ["Av. Rivadavia esq. Maipu", "Av. Rivadavia esq. Pinto", "Pinto esq. Alberdi", "Pinto esq. 14 de Julio", "Pinto esq. Yrigoyen"] }
+                ]
+            },
+            {
+                nombre: "Línea 502 (Blanco)",
+                colorBg: "bg-white",
+                colorText: "text-gray-800",
+                border: "border-b-4 border-gray-200",
+                paradas: ["San Lorenzo esq. Pinto", "Pinto esq. 14 de Julio", "Pinto esq. Yrigoyen"]
+            },
+            {
+                nombre: "Línea 503 (Azul)",
+                colorBg: "bg-blue-600",
+                colorText: "text-white",
+                paradas: ["Rodriguez esq. Pinto", "Rodriguez esq. Maipu", "Rodriguez esq. 25 de Mayo", "Rodriguez esq. Av. Avellaneda", "Av. Avellaneda esq. Azcuénaga"]
+            },
+            {
+                nombre: "Línea 504 (Verde)",
+                colorBg: "bg-green-600", colorText: "text-white", paradas: ["Pinto esq. Yrigoyen"]
+            },
+            {
+                nombre: "Línea 505 (Marrón)",
+                colorBg: "bg-amber-800",
+                colorText: "text-white",
+                paradas: ["Pinto esq. Yrigoyen", "Rodriguez esq. Pinto", "Rodriguez esq. Maipu", "Maipu esq. 9 de Julio", "Belgrano esq. Rodriguez", "Belgrano esq. Chacabuco", "Belgrano esq. San Lorenzo", "Belgrano esq. Av. Rivadavia"]
+            }
+        ];
+
+        const colectivosContainer = document.getElementById('colectivos-container');
+
+        const createParadaBtn = (paradaText) => {
+            const query = paradaText.replace('esq.', 'y') + ', Tandil';
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+            return `
+                <a href="${mapsUrl}" target="_blank" class="flex items-center justify-between p-3 hover:bg-gray-50 transition active:bg-gray-100">
+                    <span class="text-gray-700 text-sm font-medium"><i class="fas fa-map-marker-alt text-gray-400 mr-2"></i> ${paradaText}</span>
+                    <div class="bg-blue-50 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border border-blue-100">
+                        <i class="fas fa-location-arrow text-sm"></i>
+                    </div>
+                </a>
+            `;
+        };
+
+        lineasColectivo.forEach(linea => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 mb-4';
+            const headerClass = `${linea.colorBg} ${linea.colorText} ${linea.border || ''} p-3 font-bold text-lg flex items-center gap-2`;
+            card.innerHTML = `<div class="${headerClass}"><i class="fas fa-bus-alt opacity-90"></i> ${linea.nombre}</div><div class="divide-y divide-gray-100" id="paradas-${linea.nombre.replace(/\s+/g, '-')}"></div>`;
+            colectivosContainer.appendChild(card);
+            const pContainer = document.getElementById(`paradas-${linea.nombre.replace(/\s+/g, '-')}`);
+            if (linea.recorridos) {
+                linea.recorridos.forEach(r => {
+                    pContainer.insertAdjacentHTML('beforeend', `<div class="bg-gray-50 p-2 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-100">${r.nombre}</div>`);
+                    r.paradas.forEach(p => pContainer.insertAdjacentHTML('beforeend', createParadaBtn(p)));
+                });
+            } else if (linea.paradas) {
+                linea.paradas.forEach(p => pContainer.insertAdjacentHTML('beforeend', createParadaBtn(p)));
+            }
+        });
+
+    </script>
+</body>
+</html>
