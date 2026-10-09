@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
-    </head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>App Vecinal - Barrio Parque Independencia</title>
     <!-- Tailwind CSS para el diseño moderno y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -139,7 +138,7 @@
                     <span class="font-semibold text-gray-700">Eventos</span>
                 </button>
 
-                <!-- NUEVO: Botón Colectivos -->
+                <!-- Botón Colectivos -->
                 <button onclick="showView('view-colectivos')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95 col-span-2">
                     <div class="w-12 h-12 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl">
                         <i class="fas fa-bus"></i>
@@ -148,7 +147,7 @@
                 </button>
             </div>
 
-                        <!-- Tarjeta App Centinela -->
+            <!-- Tarjeta App Centinela -->
             <div class="mt-4 bg-gradient-to-r from-slate-800 to-blue-900 rounded-xl shadow-md p-5 text-white border-b-4 border-blue-500">
                 <div class="flex items-center gap-4 mb-3">
                     <div class="bg-white bg-opacity-20 p-3 rounded-full">
@@ -187,6 +186,78 @@
             <a href="https://comisionparqueindependenciatandil.blogspot.com/" target="_blank" class="mt-5 block text-center bg-orange-50 text-orange-700 border border-orange-200 py-3 rounded-xl font-bold text-sm">
                 <i class="fab fa-blogger mr-1"></i> Ver todas las entradas en el Blog
             </a>
+        </div>
+
+        <!-- VISTA: NOSOTROS -->
+        <div id="view-nosotros" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-200 pb-2"><i class="fas fa-people-group"></i> Nosotros</h2>
+
+            <div class="space-y-4">
+                <!-- Misión -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                    <div class="font-bold text-gray-800 mb-2"><i class="fas fa-bullseye text-emerald-500 mr-2"></i> Misión</div>
+                    <p class="text-sm text-gray-700 leading-relaxed">Satisfacer las necesidades comunes en cuanto a seguridad y mejorar la calidad de vida, sobre la base de los principios de participación democrática, colaboración mutua, solidaridad vecinal, abierta a todos los vecinos, sin distinción de raza, credo, ni opinión política.</p>
+                </div>
+
+                <!-- Objetivos -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                    <div class="font-bold text-gray-800 mb-3"><i class="fas fa-list-check text-blue-500 mr-2"></i> Objetivos</div>
+                    <ol class="space-y-2 text-sm text-gray-700">
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span> Promover la Seguridad y el Bienestar de los Residentes.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span> Fomentar la Participación Comunitaria.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span> Colaborar con las Autoridades Locales.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">4</span> Identificación y Evaluación de Riesgos.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">5</span> Educación y Concientización.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">6</span> Monitoreo y Supervisión.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">7</span> Respuesta Rápida a Incidentes.</li>
+                        <li class="flex gap-3"><span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">8</span> Evaluación y Mejora Continua.</li>
+                    </ol>
+                </div>
+
+                <!-- Autoridades -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500">
+                    <div class="font-bold text-gray-800 mb-1"><i class="fas fa-user-tie text-purple-500 mr-2"></i> Autoridades</div>
+                    <p class="text-xs text-gray-500 mb-3">Período 2025-2027</p>
+                    <ul class="divide-y divide-gray-100 text-sm">
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Presidente</span><span class="font-semibold text-gray-800 text-right">Balmaceda, Jesuan</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Vice Presidente</span><span class="font-semibold text-gray-800 text-right">Henderson, Ruth</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Secretario</span><span class="font-semibold text-gray-800 text-right">Tomasi, Mauricio</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Vocal 1</span><span class="font-semibold text-gray-800 text-right">Damario, Esther</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Vocal 2</span><span class="font-semibold text-gray-800 text-right">Varela, Susana</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Vocal suplente 1</span><span class="font-semibold text-gray-800 text-right">Echezarreta, Juana</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Vocal suplente 2</span><span class="font-semibold text-gray-800 text-right">Perez, Fernando Daniel</span></li>
+                        <li class="py-2 flex justify-between gap-3"><span class="text-gray-500">Revisor de actas</span><span class="font-semibold text-gray-800 text-right">Miguens, Alejandra</span></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-orange-500">
+                    <div class="font-bold text-gray-800 mb-2"><i class="fas fa-envelope text-orange-500 mr-2"></i> Contacto</div>
+                    <p class="text-sm text-gray-700 mb-3">¿Querés hacer un reclamo, sugerencia o pedido? Escribinos a nuestro correo electrónico:</p>
+                    <a href="mailto:comision.parqueindependencia@gmail.com" class="block text-center bg-orange-50 text-orange-700 border border-orange-100 py-2 rounded-lg font-bold text-xs break-all px-2">comision.parqueindependencia@gmail.com</a>
+                    <div class="mt-2 relative">
+                        <button onclick="copyToClipboard('comision.parqueindependencia@gmail.com', this)" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                            <i class="fas fa-copy"></i> Copiar email
+                        </button>
+                        <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                    </div>
+                    <a href="https://wa.link/yezfk2" target="_blank" class="mt-2 block text-center bg-green-500 text-white py-2 rounded-lg font-bold text-xs"><i class="fab fa-whatsapp mr-1"></i> También por WhatsApp</a>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-indigo-500">
+                    <div class="font-bold text-gray-800 mb-2"><i class="fas fa-map-location-dot text-indigo-500 mr-2"></i> Ubicación</div>
+                    <p class="text-sm text-gray-700 leading-relaxed">El "Barrio Parque Independencia" está comprendido por las cuadras incluidas entre las calles Pinto y Callao, entre Av. Rivadavia y calle Brig. Gral. Martín Rodríguez, incluyendo las continuaciones de ambas.</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Pinto+y+Rodriguez%2C+Tandil" target="_blank" class="mt-3 block text-center bg-indigo-50 text-indigo-700 border border-indigo-100 py-2 rounded-lg font-bold text-xs"><i class="fas fa-location-arrow mr-1"></i> Ver zona en el mapa</a>
+                </div>
+
+                <a href="https://comisionparqueindependenciatandil.blogspot.com/p/nosotros.html" target="_blank" class="block text-center bg-orange-50 text-orange-700 border border-orange-200 py-3 rounded-xl font-bold text-sm">
+                    <i class="fab fa-blogger mr-1"></i> Ver más en el Blog
+                </a>
+            </div>
         </div>
 
         <!-- VISTA: EMERGENCIAS -->
@@ -312,7 +383,6 @@
                         <div class="font-bold text-gray-700">Espacios Verdes</div>
                         <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
                     </a>
-                    <!-- NUEVO: Vialidad -->
                     <a href="https://wa.me/5492494282176" target="_blank" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
                         <div class="font-bold text-gray-700">Vialidad</div>
                         <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold"><i class="fab fa-whatsapp mr-1"></i> Chat</div>
@@ -332,7 +402,7 @@
             </div>
         </div>
 
-        <!-- VISTA: TRAMITES (MODIFICADA SEGÚN SOLICITUD) -->
+        <!-- VISTA: TRAMITES -->
         <div id="view-tramites" class="fade-in hidden">
             <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
                 <i class="fas fa-arrow-left"></i> Volver al inicio
@@ -351,7 +421,7 @@
                     </a>
                 </div>
 
-                <!-- TARJETA O.M.I.C. ACTUALIZADA -->
+                <!-- TARJETA O.M.I.C. -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-indigo-500">
                     <div class="font-bold text-gray-800 text-sm mb-1 uppercase tracking-tight">Oficina Municipal de Información al Consumidor (O.M.I.C.)</div>
                     <div class="text-xs text-gray-500 mb-3"><i class="fas fa-map-marker-alt"></i> Chacabuco 383</div>
@@ -366,7 +436,7 @@
                     </div>
                 </div>
 
-                <!-- NUEVA TARJETA: DENUNCIA OBRA EN CONSTRUCCIÓN -->
+                <!-- TARJETA: DENUNCIA OBRA EN CONSTRUCCIÓN -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-orange-500">
                     <div class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2 uppercase tracking-tight">
                         <i class="fas fa-hard-hat text-orange-500"></i> Denuncia Obra en construcción
@@ -382,6 +452,44 @@
                             <i class="fas fa-copy"></i> Copiar email de Mesa de Entradas
                         </button>
                         <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                    </div>
+                </div>
+
+                <!-- TARJETA: CONSEJO DE ARBOLADO PÚBLICO -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-600">
+                    <div class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2 uppercase tracking-tight">
+                        <i class="fas fa-tree text-green-600"></i> Consejo de Arbolado Público
+                    </div>
+                    <p class="text-[13px] text-gray-700 leading-relaxed">Para comunicarte con las autoridades del Consejo de Arbolado Público debés enviar un mail con el tema que deseás tratar. Recordá que las reuniones del consejo normalmente se realizan el primer viernes del mes a las 9 h. en el primer piso del Palacio Municipal, en la sala 15 de Junio (Belgrano 485).</p>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="relative">
+                            <button onclick="copyToClipboard('arboladotandil@gmail.com', this)" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                <i class="fas fa-copy"></i> Copiar email
+                            </button>
+                            <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                        </div>
+                        <a href="mailto:arboladotandil@gmail.com" class="text-center bg-green-600 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                            <i class="fas fa-envelope"></i> Enviar mail
+                        </a>
+                    </div>
+                </div>
+
+                <!-- TARJETA: FORO DE SEGURIDAD -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-600">
+                    <div class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2 uppercase tracking-tight">
+                        <i class="fas fa-shield-alt text-blue-600"></i> Foro de Seguridad
+                    </div>
+                    <p class="text-[13px] text-gray-700 leading-relaxed">Para comunicarte con las autoridades del Foro de Seguridad debés enviar un mail con el tema que deseás tratar. Recordá que las reuniones del Foro normalmente se realizan el primer miércoles del mes a las 18 h. en el primer piso de la Cámara Empresaria (Mitre 856).</p>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="relative">
+                            <button onclick="copyToClipboard('forodeseguridadtandil@gmail.com', this)" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                <i class="fas fa-copy"></i> Copiar email
+                            </button>
+                            <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                        </div>
+                        <a href="mailto:forodeseguridadtandil@gmail.com" class="text-center bg-blue-600 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                            <i class="fas fa-envelope"></i> Enviar mail
+                        </a>
                     </div>
                 </div>
 
@@ -462,7 +570,7 @@
             </div>
         </div>
 
-        <!-- NUEVA VISTA: COLECTIVOS -->
+        <!-- VISTA: COLECTIVOS -->
         <div id="view-colectivos" class="fade-in hidden">
             <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
                 <i class="fas fa-arrow-left"></i> Volver al inicio
@@ -482,14 +590,17 @@
         <div class="max-w-md mx-auto px-4 text-sm">
             <p class="font-semibold text-white mb-1">Comisión Vecinal de Seguridad</p>
             <p>"Barrio Parque Independencia"</p>
-            <p class="mt-3 text-xs opacity-75">Actualizado: Marzo 2026</p>
+            <button onclick="showView('view-nosotros')" class="mt-4 inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition text-white font-semibold text-sm px-5 py-2 rounded-full shadow">
+                <i class="fas fa-people-group"></i> Nosotros
+            </button>
+            <p class="mt-4 text-xs opacity-75">Actualizado: Octubre 2026</p>
         </div>
     </footer>
 
     <!-- Lógica de la Aplicación -->
     <script>
         function showView(viewId) {
-            const views = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos', 'view-novedades'];
+            const views = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos', 'view-novedades', 'view-nosotros'];
             views.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
@@ -497,24 +608,56 @@
             window.scrollTo(0,0);
         }
 
-        // Función para copiar al portapapeles
+        // Función para copiar al portapapeles (versión con respaldo para navegadores antiguos)
+        function copiarTexto(text) {
+            return new Promise((resolve, reject) => {
+                const fallback = () => {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = '0';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (err) {}
+                    document.body.removeChild(textArea);
+                    ok ? resolve() : reject();
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(resolve).catch(fallback);
+                } else {
+                    fallback();
+                }
+            });
+        }
+
         function copyToClipboard(text, buttonElement) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
+            copiarTexto(text).then(() => {
                 const toast = buttonElement.parentElement.querySelector('.toast-msg');
-                if(toast) {
+                if (toast) {
                     toast.classList.remove('opacity-0');
                     setTimeout(() => toast.classList.add('opacity-0'), 2000);
                 }
-            } catch (err) {}
-            document.body.removeChild(textArea);
+            }).catch(() => {});
+        }
+
+        // Copiar el link de una novedad para compartirla
+        function copiarLinkNovedad(i, btn) {
+            const original = btn.innerHTML;
+            copiarTexto(novedades[i].url).then(() => {
+                btn.innerHTML = '<i class="fas fa-check mr-1"></i> ¡Link copiado!';
+                btn.classList.remove('bg-gray-100', 'text-gray-700');
+                btn.classList.add('bg-emerald-100', 'text-emerald-700');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('bg-emerald-100', 'text-emerald-700');
+                    btn.classList.add('bg-gray-100', 'text-gray-700');
+                }, 2000);
+            }).catch(() => {
+                btn.innerHTML = 'No se pudo copiar';
+                setTimeout(() => { btn.innerHTML = original; }, 2000);
+            });
         }
 
         // --- Cuenta Regresiva ---
@@ -781,7 +924,7 @@
                         <div id="nov-full-${i}" class="nov-contenido hidden text-sm text-gray-700 leading-relaxed space-y-2 break-words"></div>
                         <div class="flex gap-2 mt-3">
                             <button id="nov-btn-${i}" onclick="toggleNovedad(${i})" class="flex-1 bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold active:scale-95 transition">Leer completo</button>
-                            <a href="${esc(n.url)}" target="_blank" class="flex-1 text-center bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold"><i class="fas fa-external-link-alt mr-1"></i> Ver en el blog</a>
+                            <button onclick="copiarLinkNovedad(${i}, this)" class="flex-1 text-center bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold active:scale-95 transition"><i class="fas fa-link mr-1"></i> Copiar link</button>
                         </div>
                     </div>
                 </article>`;
