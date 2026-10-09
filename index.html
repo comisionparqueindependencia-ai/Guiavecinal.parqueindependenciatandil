@@ -586,13 +586,33 @@
 
     <!-- Lógica de la Aplicación -->
     <script>
-        function showView(viewId) {
-            const views = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos', 'view-novedades', 'view-nosotros'];
-            views.forEach(id => {
+        const VIEWS = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos', 'view-novedades', 'view-nosotros'];
+
+        // Muestra una sección y la recuerda en la URL (así sobrevive a "actualizar" y funciona el botón Atrás)
+        function showView(viewId, guardarEnUrl = true) {
+            VIEWS.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(viewId).classList.remove('hidden');
             window.scrollTo(0,0);
+            if (guardarEnUrl) {
+                const destino = viewId === 'view-home' ? '' : '#' + viewId.replace('view-', '');
+                if ((location.hash || '') !== destino) {
+                    try { history.pushState(null, '', destino || (location.pathname + location.search)); } catch (e) {}
+                }
+            }
+        }
+
+        // Lee la URL y muestra la sección que corresponde
+        function routeFromHash() {
+            const h = decodeURIComponent(location.hash || '');
+            if (h.startsWith('#novedad=')) {
+                showView('view-novedades', false);
+                if (novedades.length) abrirNovedadDesdeLink();
+                return;
+            }
+            const id = 'view-' + h.slice(1);
+            showView(h.length > 1 && VIEWS.includes(id) ? id : 'view-home', false);
         }
 
         // Función para copiar al portapapeles (versión con respaldo para navegadores antiguos)
@@ -875,10 +895,10 @@
         // Si se entra con un link compartido (#novedad=...), abre esa novedad
         function abrirNovedadDesdeLink() {
             const h = decodeURIComponent(location.hash || '');
-            if (h === '#novedades') { showView('view-novedades'); return; }
+            if (h === '#novedades') { showView('view-novedades', false); return; }
             const m = h.match(/^#novedad=(.+)$/);
             if (!m) return;
-            showView('view-novedades');
+            showView('view-novedades', false);
             const i = novedades.findIndex(n => n.slug === m[1]);
             if (i < 0) return;
             const full = document.getElementById('nov-full-' + i);
@@ -891,7 +911,7 @@
                 }
             }, 150);
         }
-        window.addEventListener('hashchange', () => { if (novedades.length) abrirNovedadDesdeLink(); });
+        window.addEventListener('hashchange', routeFromHash);
 
         function fmtFecha(iso) {
             return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -959,6 +979,7 @@
             btn.textContent = abrir ? 'Cerrar' : 'Leer completo';
         }
 
+        routeFromHash();
         loadNovedades();
 
         // --- Generador de Paradas de Colectivos ---
