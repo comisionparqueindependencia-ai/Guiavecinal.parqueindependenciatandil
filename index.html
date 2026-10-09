@@ -25,6 +25,19 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Links dentro de las novedades: discretos pero distinguibles */
+        .nov-contenido a {
+            color: #047857;
+            text-decoration: underline;
+            text-decoration-color: #6ee7b7;
+            text-underline-offset: 2px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        .nov-contenido a:hover, .nov-contenido a:active {
+            color: #065f46;
+            text-decoration-color: #047857;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans antialiased">
@@ -763,7 +776,7 @@
                         </div>
                         <h3 class="font-bold ${destacado ? 'text-xl text-emerald-800' : 'text-lg text-gray-800'} leading-tight mb-2">${esc(n.titulo)}</h3>
                         <p id="nov-resumen-${i}" class="text-sm text-gray-600 leading-relaxed">${esc(resumen)}</p>
-                        <div id="nov-full-${i}" class="hidden text-sm text-gray-700 leading-relaxed space-y-2 break-words"></div>
+                        <div id="nov-full-${i}" class="nov-contenido hidden text-sm text-gray-700 leading-relaxed space-y-2 break-words"></div>
                         <div class="flex gap-2 mt-3">
                             <button id="nov-btn-${i}" onclick="toggleNovedad(${i})" class="flex-1 bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold active:scale-95 transition">Leer completo</button>
                             <a href="${esc(n.url)}" target="_blank" class="flex-1 text-center bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold"><i class="fas fa-external-link-alt mr-1"></i> Ver en el blog</a>
