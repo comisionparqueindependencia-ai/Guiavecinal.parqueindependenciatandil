@@ -442,6 +442,54 @@
                     </div>
                 </div>
 
+                <!-- TARJETA: NOTAS -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-sky-600">
+                    <div class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2 uppercase tracking-tight">
+                        <i class="fas fa-file-signature text-sky-600"></i> Notas
+                    </div>
+
+                    <!-- Notas al Intendente o Secretarios -->
+                    <div class="pb-4 border-b border-gray-100">
+                        <div class="font-bold text-gray-800 text-sm">Notas al Intendente o Secretarios</div>
+                        <div class="text-xs text-gray-500 mt-1 mb-2"><i class="fas fa-map-marker-alt"></i> Mesa de Entradas del Municipio · Belgrano 485</div>
+                        <p class="text-[13px] text-gray-700 leading-relaxed">Las notas al Intendente o a cualquiera de sus Secretarios deben ser presentadas de forma presencial en la Mesa de Entradas del Municipio (Belgrano 485), o bien pueden ser enviadas como adjunto a <strong>mesa_entradas@tandil.gov.ar</strong>.</p>
+                        <div class="mt-3 space-y-2">
+                            <div class="relative">
+                                <button onclick="copyToClipboard('mesa_entradas@tandil.gov.ar', this)" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                    <i class="fas fa-copy"></i> Copiar email de Mesa de Entradas
+                                </button>
+                                <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                            </div>
+                            <a href="mailto:mesa_entradas@tandil.gov.ar" class="text-center bg-sky-600 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                <i class="fas fa-envelope"></i> Enviar mail
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Notas al Presidente del Concejo Deliberante -->
+                    <div class="pt-4">
+                        <div class="font-bold text-gray-800 text-sm">Notas al Presidente del Concejo Deliberante</div>
+                        <div class="text-xs text-gray-500 mt-1 mb-2"><i class="fas fa-map-marker-alt"></i> Palacio Municipal · Belgrano 485, 1er piso</div>
+                        <p class="text-[13px] text-gray-700 leading-relaxed">Las notas al Presidente del Concejo Deliberante deben ser presentadas en la Secretaría de la Presidencia del Honorable Concejo Deliberante, ubicada en el primer piso del Palacio Municipal (Belgrano 485), o bien enviar un correo a <strong>secretaria@hcdtandil.gob.ar</strong> o un WhatsApp al 249 467-0083.</p>
+                        <div class="mt-3 space-y-2">
+                            <div class="relative">
+                                <button onclick="copyToClipboard('secretaria@hcdtandil.gob.ar', this)" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                    <i class="fas fa-copy"></i> Copiar email de la Secretaría del HCD
+                                </button>
+                                <div class="toast-msg absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none">¡Copiado!</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <a href="mailto:secretaria@hcdtandil.gob.ar" class="text-center bg-sky-600 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                    <i class="fas fa-envelope"></i> Enviar mail
+                                </a>
+                                <a href="https://wa.me/5492494670083" target="_blank" class="text-center bg-green-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition">
+                                    <i class="fab fa-whatsapp text-sm"></i> Chat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- TARJETA: CONSEJO DE ARBOLADO PÚBLICO -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-600">
                     <div class="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2 uppercase tracking-tight">
