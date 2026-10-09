@@ -58,6 +58,21 @@
                 </p>
             </div>
 
+            <!-- Tarjeta Novedades (muestra la última publicación del blog) -->
+            <button onclick="showView('view-novedades')" class="w-full text-left bg-white rounded-xl shadow-sm border border-emerald-100 p-4 mb-6 active:scale-[0.98] transition">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-xs font-bold text-emerald-600 uppercase tracking-wide">Novedades del barrio</div>
+                        <div id="home-novedades-title" class="font-bold text-gray-800 truncate">Cargando...</div>
+                        <div id="home-novedades-date" class="text-xs text-gray-500"></div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-300"></i>
+                </div>
+            </button>
+
             <!-- Grilla de Menú -->
             <h3 class="font-bold text-gray-600 mb-3 px-1 text-lg">¿Qué estás buscando?</h3>
             <div class="grid grid-cols-2 gap-3">
@@ -153,6 +168,31 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- VISTA: NOVEDADES -->
+        <div id="view-novedades" class="fade-in hidden">
+            <button onclick="showView('view-home')" class="mb-4 text-emerald-700 font-semibold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </button>
+            <h2 class="text-2xl font-bold text-emerald-700 mb-3 border-b-2 border-emerald-200 pb-2"><i class="fas fa-newspaper"></i> Novedades</h2>
+
+            <!-- Filtros -->
+            <div class="flex gap-2 mb-4" id="novedades-filtros">
+                <button onclick="setFiltro('todas')" data-filtro="todas" class="filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border">Todas</button>
+                <button onclick="setFiltro('mensual')" data-filtro="mensual" class="filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border">Mensuales</button>
+                <button onclick="setFiltro('especial')" data-filtro="especial" class="filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border">Especiales</button>
+            </div>
+
+            <p id="novedades-aviso" class="hidden text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-3"></p>
+
+            <div id="novedades-list" class="space-y-4">
+                <p class="text-center text-gray-500 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando novedades...</p>
+            </div>
+
+            <a href="https://comisionparqueindependenciatandil.blogspot.com/" target="_blank" class="mt-5 block text-center bg-orange-50 text-orange-700 border border-orange-200 py-3 rounded-xl font-bold text-sm">
+                <i class="fab fa-blogger mr-1"></i> Ver todas las entradas en el Blog
+            </a>
         </div>
 
         <!-- VISTA: EMERGENCIAS -->
@@ -455,7 +495,7 @@
     <!-- Lógica de la Aplicación -->
     <script>
         function showView(viewId) {
-            const views = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos'];
+            const views = ['view-home', 'view-emergencias', 'view-salud', 'view-servicios', 'view-tramites', 'view-eventos', 'view-mapas', 'view-colectivos', 'view-novedades'];
             views.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
@@ -611,6 +651,173 @@
                 items[i].style.display = text.toLowerCase().indexOf(input) > -1 ? "" : "none";
             }
         }
+
+        // --- Novedades (se leen automáticamente del Blog) ---
+        const BLOG_URL = 'https://comisionparqueindependenciatandil.blogspot.com';
+        const FEED_URL = BLOG_URL + '/feeds/posts/default?alt=json&max-results=30';
+        const CACHE_KEY = 'novedades_cache_v1';
+        let novedades = [];
+        let filtroActual = 'todas';
+
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const normTag = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+        // Limpia el HTML del blog antes de mostrarlo dentro de la app
+        function sanitizeHTML(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            doc.querySelectorAll('script,style,iframe,object,embed,link,meta,form').forEach(n => n.remove());
+            doc.querySelectorAll('*').forEach(el => {
+                [...el.attributes].forEach(a => {
+                    const n = a.name.toLowerCase();
+                    if (n.startsWith('on') || n === 'style' || (['href', 'src'].includes(n) && /^\s*javascript:/i.test(a.value))) {
+                        el.removeAttribute(a.name);
+                    }
+                });
+                if (el.tagName === 'A') { el.target = '_blank'; el.rel = 'noopener'; }
+                if (el.tagName === 'IMG') {
+                    el.removeAttribute('width'); el.removeAttribute('height');
+                    el.className = 'rounded-lg my-2 max-w-full h-auto';
+                }
+            });
+            return doc.body.innerHTML;
+        }
+
+        function parseFeed(data) {
+            const entries = (data.feed && data.feed.entry) || [];
+            return entries.map(e => {
+                const html = (e.content && e.content.$t) || (e.summary && e.summary.$t) || '';
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                const texto = (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+                let img = e['media$thumbnail'] ? e['media$thumbnail'].url.replace(/\/s\d+(-c)?\//, '/s640/') : '';
+                if (!img) { const i = doc.querySelector('img'); if (i) img = i.src; }
+                const link = (e.link || []).find(l => l.rel === 'alternate');
+                return {
+                    titulo: e.title.$t,
+                    fecha: e.published.$t,
+                    url: link ? link.href : BLOG_URL,
+                    html, texto, img,
+                    tags: (e.category || []).map(c => normTag(c.term))
+                };
+            });
+        }
+
+        // Plan B por si el navegador bloquea fetch (JSONP)
+        function jsonp(url) {
+            return new Promise((resolve, reject) => {
+                const cb = 'cbNov' + Date.now();
+                const s = document.createElement('script');
+                const cleanup = () => { clearTimeout(t); delete window[cb]; s.remove(); };
+                const t = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 10000);
+                window[cb] = d => { cleanup(); resolve(d); };
+                s.onerror = () => { cleanup(); reject(new Error('jsonp')); };
+                s.src = url.replace('alt=json', 'alt=json-in-script') + '&callback=' + cb;
+                document.body.appendChild(s);
+            });
+        }
+
+        async function loadNovedades() {
+            let data = null;
+            try {
+                const r = await fetch(FEED_URL);
+                if (!r.ok) throw new Error('http ' + r.status);
+                data = await r.json();
+            } catch (e) {
+                try { data = await jsonp(FEED_URL); } catch (e2) { data = null; }
+            }
+
+            const aviso = document.getElementById('novedades-aviso');
+            if (data) {
+                novedades = parseFeed(data);
+                try { localStorage.setItem(CACHE_KEY, JSON.stringify(novedades)); } catch (e) {}
+            } else {
+                try { novedades = JSON.parse(localStorage.getItem(CACHE_KEY)) || []; } catch (e) { novedades = []; }
+                if (novedades.length) {
+                    aviso.textContent = 'Sin conexión: mostrando la última versión guardada.';
+                    aviso.classList.remove('hidden');
+                }
+            }
+            renderNovedades();
+            renderHomePreview();
+        }
+
+        function fmtFecha(iso) {
+            return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function renderHomePreview() {
+            const t = document.getElementById('home-novedades-title');
+            const d = document.getElementById('home-novedades-date');
+            if (novedades.length) {
+                t.textContent = novedades[0].titulo;
+                d.textContent = fmtFecha(novedades[0].fecha);
+            } else {
+                t.textContent = 'Ver novedades';
+                d.textContent = '';
+            }
+        }
+
+        function setFiltro(f) {
+            filtroActual = f;
+            renderNovedades();
+        }
+
+        function badgeHTML(n) {
+            if (n.tags.includes('especial')) return '<span class="text-[10px] font-bold uppercase bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full"><i class="fas fa-star mr-1"></i>Especial</span>';
+            if (n.tags.includes('mensual')) return '<span class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full"><i class="far fa-calendar mr-1"></i>Resumen mensual</span>';
+            return '';
+        }
+
+        function renderNovedades() {
+            // Estilo de los botones de filtro
+            document.querySelectorAll('.filtro-btn').forEach(b => {
+                const activo = b.dataset.filtro === filtroActual;
+                b.className = 'filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border ' +
+                    (activo ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-200');
+            });
+
+            const cont = document.getElementById('novedades-list');
+            const lista = novedades.filter(n => filtroActual === 'todas' || n.tags.includes(filtroActual));
+
+            if (!lista.length) {
+                cont.innerHTML = '<p class="text-center text-gray-500 py-8">No hay novedades para mostrar.</p>';
+                return;
+            }
+
+            cont.innerHTML = lista.map(n => {
+                const i = novedades.indexOf(n);
+                const resumen = n.texto.length > 220 ? n.texto.slice(0, 220).trim() + '…' : n.texto;
+                return `
+                <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    ${n.img ? `<img src="${esc(n.img)}" alt="" loading="lazy" class="w-full h-40 object-cover">` : ''}
+                    <div class="p-4">
+                        <div class="flex items-center gap-2 mb-1 flex-wrap">
+                            ${badgeHTML(n)}
+                            <span class="text-xs text-gray-500">${fmtFecha(n.fecha)}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-gray-800 leading-tight mb-2">${esc(n.titulo)}</h3>
+                        <p id="nov-resumen-${i}" class="text-sm text-gray-600 leading-relaxed">${esc(resumen)}</p>
+                        <div id="nov-full-${i}" class="hidden text-sm text-gray-700 leading-relaxed space-y-2 break-words"></div>
+                        <div class="flex gap-2 mt-3">
+                            <button id="nov-btn-${i}" onclick="toggleNovedad(${i})" class="flex-1 bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold active:scale-95 transition">Leer completo</button>
+                            <a href="${esc(n.url)}" target="_blank" class="flex-1 text-center bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold"><i class="fas fa-external-link-alt mr-1"></i> Ver en el blog</a>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+        }
+
+        function toggleNovedad(i) {
+            const full = document.getElementById('nov-full-' + i);
+            const resumen = document.getElementById('nov-resumen-' + i);
+            const btn = document.getElementById('nov-btn-' + i);
+            const abrir = full.classList.contains('hidden');
+            if (abrir && !full.innerHTML) full.innerHTML = sanitizeHTML(novedades[i].html);
+            full.classList.toggle('hidden', !abrir);
+            resumen.classList.toggle('hidden', abrir);
+            btn.textContent = abrir ? 'Cerrar' : 'Leer completo';
+        }
+
+        loadNovedades();
 
         // --- Generador de Paradas de Colectivos ---
         const lineasColectivo = [
