@@ -109,7 +109,7 @@
                 </button>
 
                 <!-- Botón Mapas -->
-                <button onclick="showView('view-mapas')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95 col-span-2 sm:col-span-1">
+                <button onclick="showView('view-mapas')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95">
                     <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
                         <i class="fas fa-map-marked-alt"></i>
                     </div>
@@ -117,7 +117,7 @@
                 </button>
 
                 <!-- Botón Eventos -->
-                <button onclick="showView('view-eventos')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95 col-span-2 sm:col-span-1">
+                <button onclick="showView('view-eventos')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center justify-center gap-2 border border-gray-100 active:scale-95">
                     <div class="w-12 h-12 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xl">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
@@ -133,21 +133,7 @@
                 </button>
             </div>
 
-            <!-- Tarjeta Blog del Barrio -->
-            <a href="https://comisionparqueindependenciatandil.blogspot.com/" target="_blank" class="mt-6 block bg-orange-50 hover:bg-orange-100 transition rounded-xl shadow-sm p-4 border border-orange-200 active:scale-[0.98]">
-                <div class="flex items-center gap-4">
-                    <div class="bg-orange-200 text-orange-600 w-12 h-12 rounded-full flex items-center justify-center text-2xl flex-shrink-0">
-                        <i class="fab fa-blogger"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="font-bold text-orange-800 text-lg leading-tight">Blog del Barrio</h3>
-                        <p class="text-xs text-orange-700 mt-1">Novedades y noticias de la comisión vecinal.</p>
-                    </div>
-                    <i class="fas fa-external-link-alt text-orange-400"></i>
-                </div>
-            </a>
-
-            <!-- Tarjeta App Centinela -->
+                        <!-- Tarjeta App Centinela -->
             <div class="mt-4 bg-gradient-to-r from-slate-800 to-blue-900 rounded-xl shadow-md p-5 text-white border-b-4 border-blue-500">
                 <div class="flex items-center gap-4 mb-3">
                     <div class="bg-white bg-opacity-20 p-3 rounded-full">
@@ -176,13 +162,6 @@
                 <i class="fas fa-arrow-left"></i> Volver al inicio
             </button>
             <h2 class="text-2xl font-bold text-emerald-700 mb-3 border-b-2 border-emerald-200 pb-2"><i class="fas fa-newspaper"></i> Novedades</h2>
-
-            <!-- Filtros -->
-            <div class="flex gap-2 mb-4" id="novedades-filtros">
-                <button onclick="setFiltro('todas')" data-filtro="todas" class="filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border">Todas</button>
-                <button onclick="setFiltro('mensual')" data-filtro="mensual" class="filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border">Mensuales</button>
-                <button onclick="setFiltro('especial')" data-filtro="especial" class="filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border">Especiales</button>
-            </div>
 
             <p id="novedades-aviso" class="hidden text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-3"></p>
 
@@ -657,7 +636,6 @@
         const FEED_URL = BLOG_URL + '/feeds/posts/default?alt=json&max-results=30';
         const CACHE_KEY = 'novedades_cache_v1';
         let novedades = [];
-        let filtroActual = 'todas';
 
         const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
         const normTag = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
@@ -756,11 +734,6 @@
             }
         }
 
-        function setFiltro(f) {
-            filtroActual = f;
-            renderNovedades();
-        }
-
         function badgeHTML(n) {
             if (n.tags.includes('especial')) return '<span class="text-[10px] font-bold uppercase bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full"><i class="fas fa-star mr-1"></i>Especial</span>';
             if (n.tags.includes('mensual')) return '<span class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full"><i class="far fa-calendar mr-1"></i>Resumen mensual</span>';
@@ -768,33 +741,27 @@
         }
 
         function renderNovedades() {
-            // Estilo de los botones de filtro
-            document.querySelectorAll('.filtro-btn').forEach(b => {
-                const activo = b.dataset.filtro === filtroActual;
-                b.className = 'filtro-btn flex-1 py-2 rounded-lg text-xs font-bold border ' +
-                    (activo ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-200');
-            });
-
             const cont = document.getElementById('novedades-list');
-            const lista = novedades.filter(n => filtroActual === 'todas' || n.tags.includes(filtroActual));
+            const lista = novedades;
 
             if (!lista.length) {
                 cont.innerHTML = '<p class="text-center text-gray-500 py-8">No hay novedades para mostrar.</p>';
                 return;
             }
 
-            cont.innerHTML = lista.map(n => {
-                const i = novedades.indexOf(n);
+            cont.innerHTML = lista.map((n, i) => {
+                const destacado = i === 0;
                 const resumen = n.texto.length > 220 ? n.texto.slice(0, 220).trim() + '…' : n.texto;
                 return `
-                <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    ${n.img ? `<img src="${esc(n.img)}" alt="" loading="lazy" class="w-full h-40 object-cover">` : ''}
+                <article class="bg-white rounded-xl overflow-hidden ${destacado ? 'shadow-lg border-2 border-emerald-500 ring-4 ring-emerald-100' : 'shadow-sm border border-gray-100'}">
+                    ${destacado ? '<div class="bg-emerald-600 text-white text-xs font-bold px-4 py-2 flex items-center gap-2"><i class="fas fa-bullhorn"></i> Última novedad publicada</div>' : ''}
+                    ${n.img ? `<img src="${esc(n.img)}" alt="" loading="lazy" class="w-full ${destacado ? 'h-56' : 'h-40'} object-cover">` : ''}
                     <div class="p-4">
                         <div class="flex items-center gap-2 mb-1 flex-wrap">
                             ${badgeHTML(n)}
                             <span class="text-xs text-gray-500">${fmtFecha(n.fecha)}</span>
                         </div>
-                        <h3 class="font-bold text-lg text-gray-800 leading-tight mb-2">${esc(n.titulo)}</h3>
+                        <h3 class="font-bold ${destacado ? 'text-xl text-emerald-800' : 'text-lg text-gray-800'} leading-tight mb-2">${esc(n.titulo)}</h3>
                         <p id="nov-resumen-${i}" class="text-sm text-gray-600 leading-relaxed">${esc(resumen)}</p>
                         <div id="nov-full-${i}" class="hidden text-sm text-gray-700 leading-relaxed space-y-2 break-words"></div>
                         <div class="flex gap-2 mt-3">
