@@ -182,7 +182,16 @@
 
             <p id="novedades-aviso" class="hidden text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-3"></p>
 
-            <div id="novedades-list" class="space-y-4">
+            <div class="relative mb-2">
+                <input type="text" id="novedades-busqueda" oninput="filtrarNovedades()" placeholder="Buscar en las novedades..." autocomplete="off" enterkeyhint="search" class="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm font-medium">
+                <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                <button id="novedades-busqueda-clear" onclick="limpiarBusqueda()" aria-label="Borrar búsqueda" class="hidden absolute right-2 top-2 w-8 h-8 rounded-full text-gray-400 active:bg-gray-100 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p id="novedades-busqueda-info" class="hidden text-xs text-gray-500 mb-3 px-1"></p>
+
+            <div id="novedades-list" class="space-y-4 mt-3">
                 <p class="text-center text-gray-500 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando novedades...</p>
             </div>
 
@@ -1043,7 +1052,7 @@
                             ${badgeHTML(n)}
                             <span class="text-xs text-gray-500">${fmtFecha(n.fecha)}</span>
                         </div>
-                        <h3 class="font-bold ${destacado ? 'text-xl text-emerald-800' : 'text-lg text-gray-800'} leading-tight mb-2">${esc(n.titulo)}</h3>
+                        <h3 id="nov-titulo-${i}" class="font-bold ${destacado ? 'text-xl text-emerald-800' : 'text-lg text-gray-800'} leading-tight mb-2">${esc(n.titulo)}</h3>
                         <p id="nov-resumen-${i}" class="text-sm text-gray-600 leading-relaxed">${esc(resumen)}</p>
                         <div id="nov-full-${i}" class="nov-contenido hidden text-sm text-gray-700 leading-relaxed space-y-2 break-words"></div>
                         <div class="flex gap-2 mt-3">
@@ -1053,6 +1062,97 @@
                     </div>
                 </article>`;
             }).join('');
+            filtrarNovedades();
+        }
+
+        // --- Buscador de novedades (busca en títulos y cuerpos, sin distinguir tildes ni mayúsculas) ---
+        function fold(str) {
+            return Array.from(String(str)).map(c => {
+                if (/[\u0300-\u036f]/.test(c)) return '';
+                return Array.from(Array.from(c.normalize('NFD'))[0].toLowerCase())[0];
+            }).join('');
+        }
+
+        // Marca las coincidencias dentro de un texto
+        function resaltar(texto, terms) {
+            const f = fold(texto);
+            const rangos = [];
+            terms.forEach(t => {
+                let p = f.indexOf(t);
+                while (p !== -1) { rangos.push([p, p + t.length]); p = f.indexOf(t, p + t.length); }
+            });
+            rangos.sort((a, b) => a[0] - b[0]);
+            const unidos = [];
+            rangos.forEach(r => {
+                const ult = unidos[unidos.length - 1];
+                if (ult && r[0] <= ult[1]) ult[1] = Math.max(ult[1], r[1]); else unidos.push([r[0], r[1]]);
+            });
+            let out = '', pos = 0;
+            unidos.forEach(([a, b]) => {
+                out += esc(texto.slice(pos, a)) + '<mark class="bg-yellow-200 text-gray-900 rounded px-0.5">' + esc(texto.slice(a, b)) + '</mark>';
+                pos = b;
+            });
+            return out + esc(texto.slice(pos));
+        }
+
+        function filtrarNovedades() {
+            const input = document.getElementById('novedades-busqueda');
+            if (!input) return;
+            const q = input.value.trim();
+            const terms = fold(q).split(/\s+/).filter(Boolean);
+            document.getElementById('novedades-busqueda-clear').classList.toggle('hidden', !input.value);
+            const info = document.getElementById('novedades-busqueda-info');
+            let visibles = 0;
+
+            novedades.forEach((n, i) => {
+                const art = document.getElementById('nov-art-' + i);
+                if (!art) return;
+                const titulo = document.getElementById('nov-titulo-' + i);
+                const resumen = document.getElementById('nov-resumen-' + i);
+                const resumenBase = n.texto.length > 220 ? n.texto.slice(0, 220).trim() + '…' : n.texto;
+
+                if (!terms.length) {
+                    art.classList.remove('hidden');
+                    titulo.textContent = n.titulo;
+                    resumen.textContent = resumenBase;
+                    visibles++;
+                    return;
+                }
+
+                if (n._ft === undefined) { n._ft = fold(n.titulo); n._fb = fold(n.texto); }
+                const coincide = terms.every(t => (n._ft + ' ' + n._fb).includes(t));
+                art.classList.toggle('hidden', !coincide);
+                if (!coincide) return;
+                visibles++;
+
+                titulo.innerHTML = resaltar(n.titulo, terms);
+                // Muestra el fragmento del cuerpo donde aparece la coincidencia
+                let idx = -1;
+                terms.forEach(t => { const p = n._fb.indexOf(t); if (p !== -1 && (idx === -1 || p < idx)) idx = p; });
+                let frag = resumenBase;
+                if (idx !== -1) {
+                    const ini = Math.max(0, idx - 80);
+                    const fin = Math.min(n.texto.length, idx + 160);
+                    frag = (ini > 0 ? '…' : '') + n.texto.slice(ini, fin).trim() + (fin < n.texto.length ? '…' : '');
+                }
+                resumen.innerHTML = resaltar(frag, terms);
+            });
+
+            if (!terms.length) {
+                info.classList.add('hidden');
+            } else {
+                info.classList.remove('hidden');
+                info.innerHTML = visibles
+                    ? visibles + (visibles === 1 ? ' resultado' : ' resultados')
+                    : 'No se encontraron novedades para «' + esc(q) + '».';
+            }
+        }
+
+        function limpiarBusqueda() {
+            const input = document.getElementById('novedades-busqueda');
+            input.value = '';
+            filtrarNovedades();
+            input.focus();
         }
 
         function toggleNovedad(i) {
